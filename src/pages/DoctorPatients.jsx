@@ -22,7 +22,6 @@ export default function DoctorPatients() {
       setLoading(true);
       setError(null);
       try {
-        // проверьте фактический endpoint в вашем бэке; если другой — замените
         const res = await api.get(`/doctor/patients?doctor_id=${doctorId}`);
         console.log("GET /doctor/patients response:", res.status, res.data);
         setPatients(res.data || []);

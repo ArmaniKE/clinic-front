@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
@@ -29,7 +29,6 @@ export function AuthProvider({ children }) {
     setToken(null);
     setRole(null);
     setUserId(null);
-    // simple redirect to login
     window.location.replace("/");
   };
 

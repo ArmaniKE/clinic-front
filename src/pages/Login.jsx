@@ -17,7 +17,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    // сохраняем в localStorage
+    
     localStorage.setItem("login_email", email);
     localStorage.setItem("login_password", password);
     try {

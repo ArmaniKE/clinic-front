@@ -1,7 +1,6 @@
-import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import BackButton from "./BackButton";
-import Navbar from "./Navbar"; // если есть глобальная навигация
+import Navbar from "./Navbar";
 
 export default function PageLayout() {
   const loc = useLocation();
@@ -21,7 +20,6 @@ export default function PageLayout() {
         )}
 
         <div className="page-content">
-          {/* Контент страницы будет центрирован */}
           <Outlet />
         </div>
       </div>

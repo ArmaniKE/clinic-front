@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 
 export default function AdminPayments() {
@@ -35,7 +35,6 @@ export default function AdminPayments() {
     load();
   }, []);
 
-  // Загрузить приёмы при выборе пациента
   useEffect(() => {
     if (form.patient_id) {
       const loadAppointments = async () => {
@@ -63,7 +62,6 @@ export default function AdminPayments() {
     }
 
     try {
-      // Получи данные приёма (включая сумму услуги)
       const appointment = appointments.find(
         (a) => a.id === Number(form.appointment_id)
       );
@@ -72,13 +70,12 @@ export default function AdminPayments() {
         return;
       }
 
-      // Создай платёж с суммой из услуги
       await api.post("/payments", {
         patient_id: Number(form.patient_id),
         appointment_id: Number(form.appointment_id),
-        amount: appointment.service_price || 0, // берём цену из услуги
+        amount: appointment.service_price || 0,
         method: form.method,
-        status: "completed", // всегда "completed" (оплачено)
+        status: "completed",
       });
 
       await load();
@@ -106,7 +103,6 @@ export default function AdminPayments() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Управление платежами</h1>
 
-      {/* СПИСОК ПЛАТЕЖЕЙ ВВЕРХУ */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Все платежи</h2>
         {loading && <div>Загрузка...</div>}
@@ -160,7 +156,6 @@ export default function AdminPayments() {
         )}
       </div>
 
-      {/* ФОРМА СОЗДАНИЯ ПЛАТЕЖА ВНИЗУ */}
       <div className="max-w-lg p-6 bg-white rounded shadow border-t-4 border-green-500">
         <h2 className="text-xl font-semibold mb-4">Отметить как оплачено</h2>
         <form onSubmit={create} className="space-y-3">

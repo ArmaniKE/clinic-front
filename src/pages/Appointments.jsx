@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 import AppointmentCard from "../components/AppointmentCard";
 import socket from "../socket";
@@ -22,7 +22,6 @@ function Appointments() {
   useEffect(() => {
     load();
 
-    // realtime handlers
     const onCreated = (a) => setAppointments((prev) => [a, ...prev]);
     const onUpdated = (a) =>
       setAppointments((prev) => prev.map((p) => (p.id === a.id ? a : p)));

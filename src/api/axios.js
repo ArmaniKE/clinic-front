@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 api.interceptors.request.use((config) => {
@@ -12,7 +12,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// response interceptor: на 401 — убрать localStorage и редирект на страницу входа
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -21,7 +20,6 @@ api.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       localStorage.removeItem("user_id");
-      // принудительный переход на логин
       window.location.replace("/");
     }
     return Promise.reject(error);

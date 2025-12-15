@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 
@@ -7,7 +6,7 @@ export default function Navbar() {
 
   const auth = useAuth();
   const user = auth?.user || null;
-  //   const isLogged = Boolean(user);
+  // const isLogged = Boolean(user);
 
   const handleLogout = () => {
     if (auth?.logout) auth.logout();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 
 export default function AdminDoctors() {
@@ -37,14 +37,12 @@ export default function AdminDoctors() {
   const create = async (e) => {
     e.preventDefault();
 
-    // Валидация
     if (!form.full_name || !form.email || !form.password) {
       alert("Заполни все поля");
       return;
     }
 
     try {
-      // 1. Зарегистрировать пользователя
       const registerRes = await api.post("/auth/register", {
         full_name: form.full_name,
         email: form.email,
@@ -56,7 +54,6 @@ export default function AdminDoctors() {
       const newUserId = registerRes.data.user_id;
       console.log("New doctor user_id:", newUserId);
 
-      // 2. Создать запись в таблице doctors
       if (newUserId) {
         await api.post("/doctors", {
           user_id: newUserId,
@@ -97,13 +94,11 @@ export default function AdminDoctors() {
   const saveEdit = async (e) => {
     e.preventDefault();
     try {
-      // Обнови users таблицу
       await api.put(`/users/${editingId}`, {
         full_name: form.full_name,
         email: form.email,
         phone: form.phone,
       });
-      // Обнови doctors таблицу
       await api.put(`/doctors/${editingId}`, {
         specialization: form.specialization,
         room: form.room,
@@ -139,7 +134,6 @@ export default function AdminDoctors() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Управление врачами</h1>
 
-      {/* СПИСОК ВРАЧЕЙ ВВЕРХУ */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Список врачей</h2>
         {loading && <div>Загрузка...</div>}
@@ -184,7 +178,6 @@ export default function AdminDoctors() {
         )}
       </div>
 
-      {/* ФОРМА СОЗДАНИЯ/РЕДАКТИРОВАНИЯ ВНИЗУ */}
       <div className="max-w-lg p-6 bg-white rounded shadow border-t-4 border-blue-500">
         <h2 className="text-xl font-semibold mb-4">
           {editingId ? "Редактировать врача" : "Создать врача"}

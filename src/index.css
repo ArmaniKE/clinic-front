@@ -1,16 +1,14 @@
 @import "tailwindcss";
 
-/* централизованное ограничение ширины и выравнивание форм */
 .page-wrapper {
   padding: 24px;
 }
 
 .page-content {
   max-width: 980px;
-  margin: 0 auto; /* центр по горизонтали */
+  margin: 0 auto;
 }
 
-/* карточки и формы будут центроваться внутри */
 .form-card,
 .card,
 .page-center {
@@ -18,14 +16,12 @@
   max-width: 720px;
 }
 
-/* похожий стиль для BackButton */
 .back-button {
   border: 1px solid #e5e7eb;
   background: white;
   cursor: pointer;
 }
 
-/* улучшение внешнего вида главной/лендинга */
 .landing-hero {
   max-width: 1100px;
   margin: 40px auto;

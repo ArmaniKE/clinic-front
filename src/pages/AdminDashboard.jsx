@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 
 export default function AdminDashboard() {
@@ -32,7 +32,6 @@ export default function AdminDashboard() {
     <div className="p-6 bg-gray-50 min-h-screen">
       <h1 className="text-3xl font-bold mb-6">Статистика и отчёты</h1>
 
-      {/* Основные метрики */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white p-4 rounded shadow">
           <div className="text-sm text-gray-600">Общий доход</div>
@@ -60,7 +59,6 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* График доходов (последние 7 дней) */}
       <div className="bg-white p-6 rounded shadow mb-6">
         <h2 className="text-xl font-semibold mb-4">Доход последние 7 дней</h2>
         <div className="space-y-2">
@@ -96,7 +94,6 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Доход по врачам */}
       <div className="bg-white p-6 rounded shadow">
         <h2 className="text-xl font-semibold mb-4">Доход по врачам</h2>
         <div className="space-y-3">

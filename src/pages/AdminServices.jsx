@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import api from "../api/axios";
 
 export default function AdminServices() {
@@ -89,7 +89,6 @@ export default function AdminServices() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Управление услугами</h1>
 
-      {/* СПИСОК УСЛУГ ВВЕРХУ */}
       <div className="mb-8">
         <h2 className="text-xl font-semibold mb-4">Список услуг</h2>
         {loading && <div>Загрузка...</div>}
@@ -127,7 +126,6 @@ export default function AdminServices() {
         )}
       </div>
 
-      {/* ФОРМА СОЗДАНИЯ/РЕДАКТИРОВАНИЯ ВНИЗУ */}
       <div className="max-w-lg p-6 bg-white rounded shadow border-t-4 border-purple-500">
         <h2 className="text-xl font-semibold mb-4">
           {editingId ? "Редактировать услугу" : "Создать услугу"}
