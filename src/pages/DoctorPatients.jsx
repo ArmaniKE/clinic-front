@@ -22,30 +22,16 @@ export default function DoctorPatients() {
       setLoading(true);
       setError(null);
       try {
-        const res = await api.get(`/doctor/patients?doctor_id=${doctorId}`);
-        console.log("GET /doctor/patients response:", res.status, res.data);
+        const res = await api.get(`/patients/doctor/${doctorId}`);
+        console.log("GET /patients/doctor response:", res.status, res.data);
         setPatients(res.data || []);
       } catch (err) {
-        console.warn(
-          "GET /doctor/patients failed, trying /patients?doctor_id...",
-          err
+        console.error("Error loading patients:", err);
+        setError(
+          err?.response?.data?.error ||
+            err.message ||
+            "Ошибка загрузки пациентов"
         );
-        try {
-          const res2 = await api.get(`/patients?doctor_id=${doctorId}`);
-          console.log(
-            "GET /patients?doctor_id response:",
-            res2.status,
-            res2.data
-          );
-          setPatients(res2.data || []);
-        } catch (err2) {
-          console.error("Error loading patients:", err2);
-          setError(
-            err2?.response?.data?.error ||
-              err2.message ||
-              "Ошибка загрузки пациентов"
-          );
-        }
       } finally {
         setLoading(false);
       }
@@ -64,10 +50,23 @@ export default function DoctorPatients() {
       ) : (
         <ul className="space-y-2">
           {patients.map((p) => (
-            <li key={p.id} className="p-3 border rounded bg-white">
-              {p.full_name ||
-                p.name ||
-                `${p.first_name || ""} ${p.last_name || ""}`}
+            <li key={p.user_id || p.id} className="p-4 border rounded bg-white">
+              <div className="font-semibold text-lg">
+                {p.full_name ||
+                  p.name ||
+                  `${p.first_name || ""} ${p.last_name || ""}`}
+              </div>
+              <div className="text-sm text-gray-700 mt-1 space-y-1">
+                {p.email && <div>Email: {p.email}</div>}
+                {p.phone && <div>Телефон: {p.phone}</div>}
+                {p.birth_date && (
+                  <div>
+                    Дата рождения:{" "}
+                    {new Date(p.birth_date).toLocaleDateString("ru-RU")}
+                  </div>
+                )}
+                {p.address && <div>Адрес: {p.address}</div>}
+              </div>
             </li>
           ))}
         </ul>

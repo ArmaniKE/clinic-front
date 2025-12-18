@@ -42,12 +42,15 @@ function Appointments() {
   if (loading) return <div className="p-6">Загрузка...</div>;
   if (error) return <div className="p-6 text-red-600">{error}</div>;
 
+  const visibleAppointments =
+    appointments?.filter((a) => a.status !== "cancelled") || [];
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Мои приёмы</h1>
       <div className="space-y-4">
-        {appointments.length === 0 && <div>Записей нет</div>}
-        {appointments.map((a) => (
+        {visibleAppointments.length === 0 && <div>Записей нет</div>}
+        {visibleAppointments.map((a) => (
           <AppointmentCard
             key={a.id}
             appointment={a}

@@ -15,42 +15,17 @@ import AdminDoctors from "./pages/AdminDoctors";
 import AdminPatients from "./pages/AdminPatients";
 import AdminServices from "./pages/AdminServices";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminAppointments from "./pages/AdminAppointments";
 import DoctorPatients from "./pages/DoctorPatients";
 import Appointments from "./pages/Appointments";
-
-function LandingPage() {
-  return (
-    <div className="landing-hero">
-      <h1 style={{ fontSize: 36, marginBottom: 12 }}>Клиника</h1>
-      <p style={{ fontSize: 18, color: "#4b5563", marginBottom: 20 }}>
-        Добро пожаловать — выберите нужный раздел справа вверху или войдите в
-        систему.
-      </p>
-      <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
-        <a
-          href="/register"
-          className="px-4 py-2 border rounded bg-green-600 text-white"
-        >
-          Регистрация
-        </a>
-        <a
-          href="/login"
-          className="px-4 py-2 border rounded bg-blue-600 text-white"
-        >
-          Войти
-        </a>
-      </div>
-    </div>
-  );
-}
+import Home from "./pages/Home";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<div>Загрузка...</div>}>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
-
+          <Route path="/" element={<Home />} />
           <Route element={<PageLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
@@ -68,6 +43,7 @@ export default function App() {
             <Route path="/admin/doctors" element={<AdminDoctors />} />
             <Route path="/admin/patients" element={<AdminPatients />} />
             <Route path="/admin/services" element={<AdminServices />} />
+            <Route path="/admin/appointments" element={<AdminAppointments />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

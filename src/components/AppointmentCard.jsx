@@ -7,6 +7,8 @@ export default function AppointmentCard({
   onDelete,
   role,
 }) {
+  const isCancelled = appointment.status === "cancelled";
+
   const [isEditing, setIsEditing] = useState(false);
   const [form, setForm] = useState({
     date: appointment.date?.split("T")[0] || "",
@@ -29,8 +31,13 @@ export default function AppointmentCard({
 
   const handleCancel = async () => {
     if (!confirm("Отменить приём?")) return;
+
     try {
-      await api.delete(`/appointments/${appointment.id}`);
+      await api.delete(`/appointments/${appointment.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`, // Get the token from storage
+        },
+      });
       if (onDelete) onDelete();
     } catch (err) {
       alert(err?.response?.data?.error || "Ошибка при отмене");
@@ -80,7 +87,13 @@ export default function AppointmentCard({
   }
 
   return (
-    <div className="p-4 bg-white rounded shadow border-l-4 border-green-500">
+    <div
+      className={`p-4 rounded shadow border-l-4 ${
+        isCancelled
+          ? "bg-gray-100 border-gray-400 opacity-80"
+          : "bg-white border-green-500"
+      }`}
+    >
       <div className="flex justify-between items-start mb-2">
         <div>
           <div className="font-semibold text-lg">
@@ -94,8 +107,12 @@ export default function AppointmentCard({
             )}
           </div>
         </div>
-        <span className="bg-yellow-200 px-2 py-1 rounded text-xs font-semibold">
-          {appointment.status}
+        <span
+          className={`px-2 py-1 rounded text-xs font-semibold ${
+            isCancelled ? "bg-red-200 text-red-800" : "bg-yellow-200"
+          }`}
+        >
+          {isCancelled ? "Отменён" : appointment.status}
         </span>
       </div>
 
@@ -105,20 +122,22 @@ export default function AppointmentCard({
         {appointment.reason && <div>📝 {appointment.reason}</div>}
       </div>
 
-      <div className="flex gap-2">
-        <button
-          onClick={() => setIsEditing(true)}
-          className="px-3 py-1 bg-blue-200 rounded text-sm"
-        >
-          Изменить
-        </button>
-        <button
-          onClick={handleCancel}
-          className="px-3 py-1 bg-red-200 rounded text-sm"
-        >
-          Отменить
-        </button>
-      </div>
+      {!isCancelled && (
+        <div className="flex gap-2">
+          <button
+            onClick={() => setIsEditing(true)}
+            className="px-3 py-1 bg-blue-200 rounded text-sm"
+          >
+            Изменить
+          </button>
+          <button
+            onClick={handleCancel}
+            className="px-3 py-1 bg-red-200 rounded text-sm"
+          >
+            Отменить
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -20,6 +20,7 @@ api.interceptors.response.use(
       localStorage.removeItem("token");
       localStorage.removeItem("role");
       localStorage.removeItem("user_id");
+      localStorage.removeItem("full_name");
       window.location.replace("/");
     }
     return Promise.reject(error);

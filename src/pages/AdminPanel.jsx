@@ -12,16 +12,19 @@ export default function AdminPanel() {
           📊 Статистика и отчёты
         </Link>
         <Link to="/admin/doctors" className="block bg-blue-100 p-3 rounded">
-          Управление врачами
+          🩺 Управление врачами
         </Link>
         <Link to="/admin/patients" className="block bg-blue-100 p-3 rounded">
-          Управление пациентами
+          👥 Управление пациентами
         </Link>
         <Link to="/admin/services" className="block bg-blue-100 p-3 rounded">
-          Управление услугами
+          🧾 Управление услугами
+        </Link>
+        <Link to="/admin/appointments" className="block bg-purple-100 p-3 rounded">
+          📅 Управление приёмами
         </Link>
         <Link to="/admin/payments" className="block bg-green-100 p-3 rounded">
-          Управление платежами
+          💰 Управление платежами
         </Link>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import useAuth from "../hooks/useAuth";
@@ -10,13 +10,20 @@ function Register() {
     password: "",
     role: "patient",
     phone: "",
-    specialization: "",
-    room: "",
-    notes: "",
+    birth_date: "",
+    address: "",
   });
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const auth = useAuth();
+  const { login } = auth;
+
+  useEffect(() => {
+    const token = auth?.token;
+    if (token && token.trim().length > 0) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [auth?.token, navigate]);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -26,8 +33,10 @@ function Register() {
     setError("");
     try {
       const response = await api.post("/auth/register", form);
-      const { token, role, user_id } = response.data;
-      login({ token, role, user_id });
+      const { token, role, user_id, full_name } = response.data;
+      if (token) {
+        login({ token, role, user_id, full_name });
+      }
       navigate("/dashboard");
     } catch (err) {
       setError(err?.response?.data?.error || "Ошибка при регистрации");
@@ -35,7 +44,7 @@ function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="flex items-center justify-center pt-30">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md bg-white p-6 rounded shadow space-y-3"
@@ -67,41 +76,27 @@ function Register() {
           placeholder="Пароль"
           className="w-full p-2 border rounded"
         />
-        <select
-          name="role"
-          value={form.role}
+        <input
+          name="phone"
+          value={form.phone}
           onChange={handleChange}
+          placeholder="Телефон"
           className="w-full p-2 border rounded"
-        >
-          <option value="patient">Пациент</option>
-          <option value="doctor">Врач</option>
-        </select>
-
-        {form.role === "doctor" && (
-          <>
-            <input
-              name="specialization"
-              value={form.specialization}
-              onChange={handleChange}
-              placeholder="Специализация"
-              className="w-full p-2 border rounded"
-            />
-            <input
-              name="room"
-              value={form.room}
-              onChange={handleChange}
-              placeholder="Кабинет"
-              className="w-full p-2 border rounded"
-            />
-            <input
-              name="notes"
-              value={form.notes}
-              onChange={handleChange}
-              placeholder="Примечания"
-              className="w-full p-2 border rounded"
-            />
-          </>
-        )}
+        />
+        <input
+          name="birth_date"
+          value={form.birth_date}
+          onChange={handleChange}
+          type="date"
+          className="w-full p-2 border rounded"
+        />
+        <input
+          name="address"
+          value={form.address}
+          onChange={handleChange}
+          placeholder="Адрес"
+          className="w-full p-2 border rounded"
+        />
 
         <button className="w-full bg-green-600 text-white p-2 rounded">
           Зарегистрироваться

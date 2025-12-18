@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/axios";
 import useAuth from "../hooks/useAuth";
@@ -12,18 +12,27 @@ export default function Login() {
   );
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const auth = useAuth();
+  const { login } = auth;
+
+  // Redirect if already logged in
+  useEffect(() => {
+    const token = auth?.token;
+    if (token && token.trim().length > 0) {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [auth?.token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    
+
     localStorage.setItem("login_email", email);
     localStorage.setItem("login_password", password);
     try {
       const response = await api.post("/auth/login", { email, password });
-      const { token, role, user_id } = response.data;
-      login({ token, role, user_id });
+      const { token, role, user_id, full_name } = response.data;
+      login({ token, role, user_id, full_name });
       navigate("/dashboard");
     } catch (err) {
       setError(err?.response?.data?.error || "Ошибка при входе");
@@ -31,7 +40,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
+    <div className="flex items-center justify-center pt-45">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md bg-white p-6 rounded shadow space-y-4"
